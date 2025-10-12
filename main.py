@@ -31,26 +31,27 @@ def generate_e_d(p, q):
     return e, d
 
 def encrypt(m, e, N):
-    return pow(m, e, N)
+    message_encoded = int.from_bytes(m.encode("ascii"))
+    return pow(message_encoded, e, N)
 def decrypt(c, d, N):
-    return pow(c, d, N)
+    cipher_decrypted = pow(c, d, N)
+    cipher_decrypted_decoded = bytes.fromhex(hex(cipher_decrypted)[2:]).decode("ascii")
+    return cipher_decrypted_decoded
 
 def test_RSA():
     message = "hi user"
-    p, q = generate_prime(200)
+    p, q = generate_prime(2048)
     e, d = generate_e_d(p, q)
     N = p*q
-    message_encoded = message.encode("ascii")
-    cipher = [encrypt(c,e,N) for c in message_encoded]
-    message_encoded_decrypted = [decrypt(c, d, N) for c in cipher]
-    message_decoded = "".join(chr(element) for element in message_encoded_decrypted)
+    cipher = encrypt(message,e,N)
+    cipher_decrypted = decrypt(cipher,d,N)
     print("Public Key: ", e)
     print("Private Key: ", d)
     print("N :", p * q)
     print("P :", p)
     print("Q :", q)
     print("Cipher: ", cipher)
-    print("Decrypted Cipher: ", message_decoded)
+    print("Decrypted Cipher: ", cipher_decrypted)
 
 
 if __name__ == '__main__':
