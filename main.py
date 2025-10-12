@@ -33,18 +33,23 @@ def generate_e_d(p, q):
 def encrypt(m, e, N):
     return pow(m, e, N)
 
-message = "hi user"
-p, q = generate_prime(200)
-e, d = generate_e_d(p, q)
-message_encoded = message.encode("ascii")
-cipher = [pow(c,e,p*q) for c in message_encoded]
-message_encoded_decrypted = [pow(c,d,p*q) for c in cipher]
-message_decoded = "".join(chr(element) for element in message_encoded_decrypted)
-print("Public Key: ",e)
-print("Private Key: ",d)
-print("N :", p*q)
-print("P :", p)
-print("Q :", q)
-print("Cipher: ", cipher)
-print("Message: ", message_decoded)
+def test_RSA():
+    message = "hi user"
+    p, q = generate_prime(200)
+    e, d = generate_e_d(p, q)
+    message_encoded = message.encode("ascii")
+    cipher = [pow(c, e, p * q) for c in message_encoded]
+    message_encoded_decrypted = [pow(c, d, p * q) for c in cipher]
+    message_decoded = "".join(chr(element) for element in message_encoded_decrypted)
+    print("Public Key: ", e)
+    print("Private Key: ", d)
+    print("N :", p * q)
+    print("P :", p)
+    print("Q :", q)
+    print("Cipher: ", cipher)
+    print("Decrypted Cipher: ", message_decoded)
+
+
+if __name__ == '__main__':
+    test_RSA()
 
